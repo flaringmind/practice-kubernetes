@@ -13,30 +13,23 @@ spec:
         app: web
     spec:
       containers:
-        - name: web
-          image: flaringmind/server:1.0.0
+        - image: flaringmind/server:1.0.0
+          name: web
           ports:
             - containerPort: 8000
+          startupProbe:
+            httpGet:
+              path: /hello.html
+              port: 8000
+            failureThreshold: 10
+            periodSeconds: 5
           readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /hello.html
+            tcpSocket:
               port: 8000
+            initialDelaySeconds: 5
             periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
           livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /hello.html
+            tcpSocket:
               port: 8000
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-            initialDelaySeconds: 10
-          startupProbe: 
-            httpGet:
-              path: /
-              port: 8000
-            failureThreshold: 30
-            periodSeconds: 10
+            initialDelaySeconds: 15
+            periodSeconds: 20
