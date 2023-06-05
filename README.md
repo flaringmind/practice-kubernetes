@@ -6,13 +6,15 @@
 3. Установить image в кластер Kubernetes
 4. Обеспечить доступ к приложению извне кластера
 
-1. В директории `server ` был создан Dockerfile на основе `python:3.10-alpine`. В нем:
+---
+
+**1.** В директории `server ` был создан Dockerfile на основе `python:3.10-alpine`. В нем:
 - обеспечивается запуск web-сервера от имени пользователя с “uid 1001”;
 - создается каталог `/app`, назначенный как WORKDIR;
 - в каталог `/app` добавляется файл `hello.html`, содержащий текст “Hello world”;
 - описывается команда для запуска web-сервера на 8000 порту.
-
-2. Далее приложение было собрано в виде Docker image следующей командой:
+---
+**2.** Далее приложение было собрано в виде Docker image следующей командой:
 ```
 docker build -t flaringmind/server:1.0.0 -t flaringmind/server:latest server
 ```
@@ -22,8 +24,8 @@ docker push flaringmind/server:1.0.0
 ```
 
 ![image](https://github.com/flaringmind/practice-kubernetes/assets/134168160/6a26f11f-df26-4872-9426-5d310cf0f1d2)
-
-3. Следующим шагом необходимо создать Kubernetes Deployment manifest, запускающий container из созданного image. На основе манифеста, сгенерированного ChatGPT, был создан файл `deployment.yaml`.Результат запроса ChatGPT приведен ниже:
+---
+**3.** Следующим шагом необходимо создать Kubernetes Deployment manifest, запускающий container из созданного image. На основе манифеста, сгенерированного ChatGPT, был создан файл `deployment.yaml`.Результат запроса ChatGPT приведен ниже:
 ![image](https://github.com/flaringmind/practice-kubernetes/assets/134168160/2cc59bf1-2ae1-4a8f-ba7d-653b36963a98)
 
 Для полученного из ChatGPT результата:
@@ -47,8 +49,8 @@ kubectl describe pods
 kubectl describe deployment web
 ```
 Результат команды `kubectl describe deployment web` приведен ниже:
-
-4. Чтобы обеспечить доступ к web-приложению, была использована следующая команда:
+---
+**4.** Чтобы обеспечить доступ к web-приложению, была использована следующая команда:
 ```
 kubectl port-forward --address 0.0.0.0 deployment/web 8080:8000
 ```
